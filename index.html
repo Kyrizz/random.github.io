@@ -1,180 +1,112 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Morse Code Link</title>
-<style>
-body {
-    font-family: cursive, Arial, sans-serif; /* Cursive font */
-    text-align: center;
-    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,165,165,1) 100%);
-    color: #000000;
-    padding-top: 50px;
-}
-
-.container {
-    background-color: #8b0000; /* Blood red color */
-    border-radius: 10px;
-    padding: 20px;
-    margin: auto;
-    max-width: 500px;
-    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2); /* Smooth shadow effect */
-    height: 200px; /* Set height to make it smaller */
-    overflow-y: auto; /* Enable vertical scrollbar */
-}
-
-a {
-    text-decoration: none;
-    color: #ffffff; /* White color for text */
-    font-weight: bold;
-    transition: color 0.3s ease;
-}
-
-a:hover {
-    color: #dddddd; /* Light gray color on hover */
-}
-
-#morseCode {
-    font-family: Arial, sans-serif; /* Non-cursive font */
-}
-
-#literalCode {
-    font-weight: bold;
-    font-family: Arial, sans-serif; /* Non-cursive font */
-    color: #ffffff; /* White color for the literal code */
-}
-
-.additional-box {
-    background-color: #ffffff; /* White color */
-    border-radius: 10px;
-    padding: 20px;
-    margin-top: 300px; /* Adjust margin to separate from the previous box */
-    text-align: center;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2); /* Add shadow effect */
-}
-
-.additional-box p {
-    font-size: 18px;
-    color: #ff0066; /* Pink color */
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Text shadow */
-}
-
-.scrollable-box {
-    background-color: #f0f0f0; /* Light gray color */
-    border-radius: 10px;
-    padding: 20px;
-    margin-top: 300px; /* Adjust margin to separate from the previous box */
-    max-height: 200px; /* Set max height to make it scrollable */
-    overflow-y: auto; /* Enable vertical scrollbar */
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2); /* Add shadow effect */
-}
-
-.scrollable-box p {
-    font-size: 18px;
-    color: #000000; /* Black color */
-}
-
-.artistic-box {
-    background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Gradient background */
-    border-radius: 10px;
-    padding: 20px;
-    margin-top: 300px; /* Adjust margin to separate from the previous box */
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2); /* Add shadow effect */
-}
-
-.artistic-box p {
-    font-family: cursive; /* Cursive font */
-    font-size: 20px;
-    color: #ffffff; /* White color */
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Text shadow */
-}
-
-.emoji-box {
-    background-color: #f0f0f0; /* Light gray color */
-    border-radius: 10px;
-    padding: 20px;
-    margin-top: 300px; /* Adjust margin to separate from the previous box */
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2); /* Add shadow effect */
-}
-
-.emoji-box p {
-    font-size: 24px;
-    color: #000000; /* Black color */
-}
-
-.help-text {
-    font-weight: bold;
-    color: #ff0066; /* Pink color */
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
-
-<div class="container">
-    <h1>Morse Code Link</h1>
-    <p>Click the Morse code to reveal its meaning:</p>
-
-    <div>
-        <a href="#" onclick="displayLiteralCode()"><span id="morseCode">--.. ... ..-. -.-. --.- .- ----. ..-. -..</span></a>
+    <div class="container">
+        <h1>Welcome to the Question For You</h1>
+        <button onclick="startGame()">Start Game</button>
     </div>
-</div>
 
-<div class="additional-box">
-    <p>What Is This For? You Might Ask</p>
-</div>
+    <script>
+        const questions = [
+            { 
+                question: "What is my name?",
+                options: ["Me", "Yahoo", "Gerzie", "No name"],
+                answer: "C"
+            },
+            {
+                question: "What am I excited for in school?",
+                options: ["Basic Calculus", "General Biology 2", "Practical Research", "Talking To You"],
+                answer: "D"
+            },
+            {
+                question: "What is my personality?",
+                options: ["Napakabait", "Tamad", "Lutang", "Mayabang"],
+                answer: "A"
+            },
+            {
+                question: "May tanong ako, pwede mo ba ko sagutin?",
+                options: ["Yes", "No"],
+                answer: "A"
+            },
+            {
+                question: "Gusto kita... Pwede ba maging tayo?",
+                options: ["Yes", "No", "Edi wow"],
+                answer: "ABC"
+            }
+        ];
 
-<div class="scrollable-box">
-    <p>Well I Don't Know How To Say This Directly</p>
-</div>
+        let currentQuestion = 0;
 
-<div class="artistic-box">
-    <p>That's why I made this... It may be <span id="cringe" onclick="replaceText()">CRINGE</span> but this is the best way I could do this...</p>
-</div>
+        function startGame() {
+            document.querySelector('.container').innerHTML = `
+                <div class="question">
+                    <h2>${questions[currentQuestion].question}</h2>
+                    ${questions[currentQuestion].options.map((option, index) => `
+                        <button onclick="checkAnswer('${String.fromCharCode(65 + index)}')">${option}</button>
+                    `).join('')}
+                </div>
+            `;
+        }
 
-<div class="additional-box">
-    <p>This puzzle is for you. I hope you solve it with a lot of hints around in this site.</p>
-</div>
+        function checkAnswer(selectedOption) {
+            const correctAnswer = questions[currentQuestion].answer;
 
-<div class="scrollable-box">
-    <p>But if you need help, just ask.</p>
-</div>
+            if (correctAnswer.includes(selectedOption)) {
+                alert('Correct Ang Iyong Sagot');
+                currentQuestion++;
+                if (currentQuestion < questions.length) {
+                    startGame();
+                } else {
+                    endGame();
+                }
+            } else {
+                alert('Di Totoo yan.');
+            }
+        }
 
-<div class="emoji-box">
-    <p class="help-text" onclick="showHelp()">help</p>
-</div>
-
-<div class="additional-box">
-    <p>Now just put it all together, put the code to the <span style="font-family: cursive;">-put here-</span> and done</p>
-</div>
-
-<div class="emoji-box" onclick="revealAnswer()">
-    <p class="help-text" id="answerText">Click to reveal the answer</p>
-</div>
-
-
-<script>
-function displayLiteralCode() {
-    var morseCode = document.getElementById("morseCode");
-    morseCode.innerHTML = "ZSFCqA9fD";
-}
-
-function replaceText() {
-    var cringeText = document.getElementById("cringe");
-    cringeText.innerHTML = "vt.tiktok.com/<span style='color:red;'>put here</span>/";
-}
-
-function showHelp() {
-    var helpText = document.querySelector(".help-text");
-    helpText.innerHTML = "Well If You already see the Morse code and then if you click words that is all capital then you're basically solve it";
-    helpText.classList.remove("help-text");
-}
-
-function revealAnswer() {
-    var answerText = document.getElementById("answerText");
-    answerText.innerHTML = "Well basically the answer is vt.tiktok.com/ZSFCqA9fD/ (just paste it to chrome)";
-}
-</script>
-
+        function endGame() {
+            document.querySelector('.container').innerHTML = `
+                <div class="end">
+                    <h2>Congratulations! You've completed my questions.</h2>
+                    <p>Thank you for pagsasagot</p>
+                      <p>"No matter what your answer is, you still gonna shine the brightest."</p>
+                </div>
+            `;
+        }
+    </script>
 </body>
 </html>
