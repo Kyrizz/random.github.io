@@ -1,112 +1,281 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Question Game</title>
+    <title>Birthday Surprise</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            text-align: center;
+        /* General styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            overflow: hidden; /* Prevent scrollbars during transitions */
         }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+        /* Container to center gift box */
+        #gift-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+            background-color: #ffeb3b;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: opacity 1s ease; /* Fade-out effect */
         }
-        h1 {
-            color: #333;
+
+        /* Gift box */
+        #gift-box {
+            width: 300px;
+            height: 300px;
+            background-color: #ff4081;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.2);
         }
-        button {
-            padding: 10px 20px;
-            margin: 10px;
-            font-size: 16px;
-            cursor: pointer;
+
+        /* Horizontal and vertical ribbons */
+        .ribbon-horizontal, .ribbon-vertical {
+            position: absolute;
+            background-color: #ffffff;
+            z-index: 1;
+        }
+
+        /* Horizontal ribbon */
+        .ribbon-horizontal {
+            width: 100%;
+            height: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* Vertical ribbon */
+        .ribbon-vertical {
+            height: 100%;
+            width: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Bow on top of the gift box */
+        #bow {
+            position: absolute;
+            top: -30px;
+            width: 60px;
+            height: 60px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+            z-index: 2;
+        }
+
+        /* Decorative bow details */
+        #bow::before, #bow::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: #ffffff;
+            border-radius: 50%;
+        }
+
+        #bow::before {
+            transform: rotate(45deg);
+        }
+
+        #bow::after {
+            transform: rotate(-45deg);
+        }
+
+        /* Button inside the gift box */
+        #open-box-button {
+            padding: 15px 30px;
+            background-color: #ffffff;
+            color: #ff4081;
             border: none;
-            border-radius: 5px;
-            background-color: #007bff;
-            color: #fff;
+            border-radius: 10px;
+            font-size: 1.5em;
+            cursor: pointer;
+            position: relative;
+            z-index: 2; /* Keep the button on top of ribbons */
+            transition: all 0.3s ease;
+        }
+
+        #open-box-button:hover {
+            background-color: #f8f8f8;
+        }
+
+        /* Message Section with Vintage Background (Initially Hidden) */
+        #message-section {
+    display: none;
+    justify-content: flex-start; /* Align text to start */
+    text-align: left; /* Align text to left */
+    width: 100vw;
+    max-height: 100vh; /* Limit the maximum height */
+    background-color: #f5deb3; /* Old paper color */
+    background-image: url('https://www.transparenttextures.com/patterns/vintage-paper.png'); /* Vintage textured paper */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.2); /* Gives a worn look */
+    font-size: 1.2em; /* Smaller font size */
+    font-family: Georgia, serif; /* Changed to Georgia font */
+    color: black; /* Black text color */
+    padding: 40px;
+    padding-bottom: 100px; /* Add bottom padding for "Hanep" visibility */
+    opacity: 0; /* Hidden initially for fade-in effect */
+    transition: opacity 1.5s ease; /* Fade-in effect */
+    overflow-y: auto; /* Allow scrolling */
+}
+
+/* Add this style for the message content */
+#message-content {
+    max-height: calc(100vh - 80px); /* Limit the height, considering the padding */
+    overflow-y: auto; /* Allow scrolling */
+    padding-right: 10px; /* Prevent text from touching the right edge */
+}
+
+        /* Spacing for Hanep text */
+        #hanep {
+            margin-top: 40px; /* Large spacing */
+            font-size: 2em; /* Size of the clickable text */
+            color: #ff4081; /* Color of the clickable text */
+            cursor: pointer; /* Pointer cursor on hover */
+            text-align: center; /* Center the text */
+            text-decoration: underline; /* Underline to indicate it's a link */
+        }
+
+        /* Confetti styles */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ff4081;
+            opacity: 0.8;
+            animation: fall 2s forwards; /* Fall effect */
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10px) rotate(0deg);
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to the Question For You</h1>
-        <button onclick="startGame()">Start Game</button>
+
+    <!-- Gift Box Container (Initial View) -->
+    <div id="gift-container">
+        <div id="gift-box">
+            <div id="bow"></div>
+            <div class="ribbon-horizontal"></div>
+            <div class="ribbon-vertical"></div>
+            <button id="open-box-button">Open Gift 🎁</button>
+        </div>
     </div>
 
+    <!-- Message Section with Vintage Background (Initially Hidden) -->
+    <div id="message-section">
+    <div id="message-content">
+        Happy Birthday Govvv <br><br>
+        Muntikan ko pa makalimutan pero syempre hahanap paraan para matandaan. <br><br>
+        Carmela, Carmela, Carmela <br>
+        Di ko alam ilalagay ko dito <br>
+        Pero magandang kaarawan sayo <br>
+        Sana may susunod pa <br>
+        Wag muna pansinin yung panget na outline <br><br>
+        
+        Siryus mode na <br>
+        putik di ko maseryoso <br><br>
+
+        Take 2 <br><br>
+
+        Dear Carmela, <br><br>
+
+        Is this the real life? Is this just fantasy? <br>
+        Caught in a landslide, no escape from reality <br>
+        Open your eyes, look up to the skies and see <br><br>
+
+        I'm just a poor boy, I need no sympathy <br>
+        Because I'm easy come, easy go <br>
+        Little high, little low <br>
+        Any way the wind blows doesn't really matter to me, to me <br><br>
+
+        Mama, Just killed a man <br><br>
+
+        Take 3 (Siryus na) <br><br>
+
+        Dear Carmela (ginagaya ko si maam charro) <br><br>
+
+        Happy Birthday Gov o aking KaP6, deserve mo yung mga score mo na batak dahil batak ka rin mag review, sa madaling salita masipag kang tao. Ikaw rin ay good influence naman... Kaya nga nakareview ako eh, salamat uli sa mga reviewer 🥺. Kakatapos lang ng midterm at maayos naman mga grado natin kaya be positive na maayos din babalik yan "High Honor? Maybe". Halos 2 months na ang klase at ikaw ang isa sa mga pinaka madaldal na tao kaya ikaw rin una kong mas nakakilala. Syempre wag kang iiyak malupit panaman message ko. Ano pa ba... Oo di na muna kita sesendan horror for now... Kasi bday mo na nga mabait ka pa (Combo) kaya next week nalang. Hakdog. Wala na di ko na alam. "All Iz Well". Yun congrat's sa score mo deserve mo yan kahit anong sabihin ng iba. Saka ano. Uhmmmm. Di ko alam kung ilang taon ka na eh... Happy 17 maybe 18 years old sayooo
+            
+        <div id="hanep" onclick="hanepClicked()">Hanep</div>
+    </div>
+</div>
+
     <script>
-        const questions = [
-            { 
-                question: "What is my name?",
-                options: ["Me", "Yahoo", "Gerzie", "No name"],
-                answer: "C"
-            },
-            {
-                question: "What am I excited for in school?",
-                options: ["Basic Calculus", "General Biology 2", "Practical Research", "Talking To You"],
-                answer: "D"
-            },
-            {
-                question: "What is my personality?",
-                options: ["Napakabait", "Tamad", "Lutang", "Mayabang"],
-                answer: "A"
-            },
-            {
-                question: "May tanong ako, pwede mo ba ko sagutin?",
-                options: ["Yes", "No"],
-                answer: "A"
-            },
-            {
-                question: "Gusto kita... Pwede ba maging tayo?",
-                options: ["Yes", "No", "Edi wow"],
-                answer: "ABC"
-            }
-        ];
+        // JavaScript to handle button click and transition
+        document.getElementById("open-box-button").addEventListener("click", function() {
+            // Fade out the gift container
+            const giftContainer = document.getElementById("gift-container");
+            giftContainer.style.opacity = "0";
 
-        let currentQuestion = 0;
+            // Show confetti animation
+            createConfetti();
 
-        function startGame() {
-            document.querySelector('.container').innerHTML = `
-                <div class="question">
-                    <h2>${questions[currentQuestion].question}</h2>
-                    ${questions[currentQuestion].options.map((option, index) => `
-                        <button onclick="checkAnswer('${String.fromCharCode(65 + index)}')">${option}</button>
-                    `).join('')}
-                </div>
-            `;
+            // Wait for the fade-out to complete, then show the message section
+        setTimeout(function() {
+            giftContainer.style.display = "none";  // Hide the gift section completely
+
+            // Show and fade in the message section
+            const messageSection = document.getElementById("message-section");
+            messageSection.style.display = "flex";
+            messageSection.style.opacity = "1"; // Fade-in effect
+        }, 1000); // 1 second delay for fade-out transition
+    });
+
+    function createConfetti() {
+        const colors = ['#ff4081', '#ffeb3b', '#81d4fa', '#7c4dff', '#ffd740'];
+        for (let i = 0; i < 100; i++) {
+            const confetti = document.createElement('div');
+            const size = Math.random() * 10 + 5; // Random size for confetti pieces
+            confetti.className = 'confetti';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.width = size + 'px';
+            confetti.style.height = size + 'px';
+            confetti.style.left = Math.random() * 100 + 'vw'; // Random horizontal position
+            confetti.style.top = Math.random() * 10 + 'vh'; // Start position from the top of the viewport
+            confetti.style.animationDuration = (Math.random() * 2 + 2) + 's'; // Random fall duration
+            document.body.appendChild(confetti);
+
+            // Remove confetti after 5 seconds
+            setTimeout(() => {
+                confetti.remove();
+            }, 5000);
         }
+    }
 
-        function checkAnswer(selectedOption) {
-            const correctAnswer = questions[currentQuestion].answer;
-
-            if (correctAnswer.includes(selectedOption)) {
-                alert('Correct Ang Iyong Sagot');
-                currentQuestion++;
-                if (currentQuestion < questions.length) {
-                    startGame();
-                } else {
-                    endGame();
-                }
-            } else {
-                alert('Di Totoo yan.');
-            }
-        }
-
-        function endGame() {
-            document.querySelector('.container').innerHTML = `
-                <div class="end">
-                    <h2>Congratulations! You've completed my questions.</h2>
-                    <p>Thank you for pagsasagot</p>
-                      <p>"No matter what your answer is, you still gonna shine the brightest."</p>
-                </div>
-            `;
-        }
+    function hanepClicked() {
+        window.location.href = "https://ayusharma.github.io/birthday/"; // Redirect to the link
+    }
     </script>
+
 </body>
 </html>
